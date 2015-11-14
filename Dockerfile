@@ -1,6 +1,7 @@
 FROM konstruktoid/java
 
 ENV REPO 'deb http://debian.datastax.com/community stable main'
+ENV DIRS '/var/log/cassandra/ /var/lib/cassandra/data /var/lib/cassandra/commitlog /var/lib/cassandra/saved_cache'
 
 RUN \
     apt-get update && \
@@ -9,13 +10,16 @@ RUN \
     echo $REPO > /etc/apt/sources.list.d/cassandra.sources.list
 
 RUN \
+    mkdir -p $DIRS && \
     apt-get update && \
     apt-get -y upgrade && \
     apt-get -y install dsc22 cassandra-tools --no-install-recommends && \
+    chown -R cassandra:cassandra $DIRS && \
+    chmod -R 0755 $DIRS && \
     apt-get -y clean && \
     rm -rf /var/lib/apt/lists/* \
-    /usr/share/doc /usr/share/doc-base \
-    /usr/share/man /usr/share/locale /usr/share/zoneinfo
+      /usr/share/doc /usr/share/doc-base \
+      /usr/share/man /usr/share/locale /usr/share/zoneinfo
 
 EXPOSE 7000 7001 7199 9042 9160
 
