@@ -17,7 +17,9 @@ RUN \
     chown -R cassandra:cassandra $DIRS && \
     chmod -R 0755 $DIRS && \
     apt-get -y clean && \
-    rm -rf /usr/share/doc-base /usr/share/locale /usr/share/zoneinfo
+    rm -rf /var/lib/apt/lists/* /var/cache/apt/* \
+      /usr/share/doc /usr/share/doc-base \
+      /usr/share/man /usr/share/locale /usr/share/zoneinfo
 
 EXPOSE 7000 7001 7199 9042 9160
 
