@@ -1,5 +1,8 @@
 FROM konstruktoid/java
 
+LABEL org.label-schema.name="cassandra"
+      org.label-schema.vcs-url="git://github.com/konstruktoid/Cassandra_Build.git"
+
 ENV REPO 'deb http://debian.datastax.com/community stable main'
 ENV DIRS '/var/log/cassandra/ /var/lib/cassandra/data /var/lib/cassandra/commitlog /var/lib/cassandra/saved_cache'
 
