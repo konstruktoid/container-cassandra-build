@@ -1,5 +1,7 @@
 # Cassandra
 
+[![](https://images.microbadger.com/badges/image/konstruktoid/cassandra.svg)](https://microbadger.com/images/konstruktoid/cassandra "Cassandra")
+
 Simple Cassandra lab using Docker.
 
 ```sh
