@@ -3,27 +3,29 @@ FROM konstruktoid/java
 LABEL org.label-schema.name="cassandra" \
       org.label-schema.vcs-url="git://github.com/konstruktoid/Cassandra_Build.git"
 
-ENV REPO 'deb http://debian.datastax.com/community stable main'
 ENV DIRS '/var/log/cassandra/ /var/lib/cassandra/data /var/lib/cassandra/commitlog /var/lib/cassandra/saved_cache'
 
 RUN \
     apt-get update && \
-    apt-get -y install procps curl --no-install-recommends && \
-    curl -L http://debian.datastax.com/debian/repo_key | apt-key add - && \
-    echo $REPO > /etc/apt/sources.list.d/cassandra.sources.list
-
-RUN \
+    apt-get -y install ca-certificates curl gnupg procps --no-install-recommends && \
+    curl https://www.apache.org/dist/cassandra/KEYS | apt-key add - && \
+    echo 'deb http://www.apache.org/dist/cassandra/debian 311x main' | tee -a /etc/apt/sources.list.d/cassandra.sources.list && \
     mkdir -p $DIRS && \
     apt-get update && \
     apt-get -y upgrade && \
-    apt-get -y install dsc30 cassandra-tools --no-install-recommends && \
+    apt-get -y install cassandra cassandra-tools --no-install-recommends && \
     chown -R cassandra:cassandra $DIRS && \
     chmod -R 0755 $DIRS && \
     apt-get -y clean && \
+    apt-get -y autoremove && \
     rm -rf /var/lib/apt/lists/* /var/cache/apt/* \
       /usr/share/doc /usr/share/doc-base \
       /usr/share/man /usr/share/locale /usr/share/zoneinfo
 
 EXPOSE 7000 7001 7199 9042 9160
+
+COPY jvm.options /etc/cassandra/jvm.options
+
+USER cassandra
 
 CMD ["cassandra", "-f"]
