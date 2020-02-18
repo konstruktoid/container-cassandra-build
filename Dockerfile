@@ -8,7 +8,7 @@ ENV DIRS '/var/log/cassandra/ /var/lib/cassandra/data /var/lib/cassandra/commitl
 RUN \
     apt-get update && \
     apt-get -y install ca-certificates curl gnupg procps --no-install-recommends && \
-    curl https://www.apache.org/dist/cassandra/KEYS | apt-key add - && \
+    curl -sSL https://www.apache.org/dist/cassandra/KEYS | apt-key add - && \
     echo 'deb http://www.apache.org/dist/cassandra/debian 311x main' | tee -a /etc/apt/sources.list.d/cassandra.sources.list && \
     mkdir -p $DIRS && \
     apt-get update && \
