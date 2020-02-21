@@ -5,6 +5,7 @@ LABEL org.label-schema.name="cassandra" \
 
 ENV DIRS '/var/log/cassandra/ /var/lib/cassandra/data /var/lib/cassandra/commitlog /var/lib/cassandra/saved_cache'
 
+SHELL ["/bin/bash", "-o", "pipefail", "-c"]
 RUN \
     apt-get update && \
     apt-get -y install ca-certificates curl gnupg procps --no-install-recommends && \
