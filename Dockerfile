@@ -10,13 +10,13 @@ RUN \
     apt-get update && \
     apt-get -y install ca-certificates curl gnupg procps --no-install-recommends && \
     curl -sSL https://www.apache.org/dist/cassandra/KEYS | apt-key add - && \
-    echo 'deb http://www.apache.org/dist/cassandra/debian 40x main' | tee -a /etc/apt/sources.list.d/cassandra.sources.list && \
-    mkdir -p $DIRS && \
+    echo "deb https://debian.cassandra.apache.org 41x main" | tee -a /etc/apt/sources.list.d/cassandra.sources.list && \
+    mkdir -p "${DIRS}" && \
     apt-get update && \
     apt-get -y upgrade && \
     apt-get -y install cassandra cassandra-tools --no-install-recommends && \
-    chown -R cassandra:cassandra $DIRS && \
-    chmod -R 0755 $DIRS && \
+    chown -R cassandra:cassandra "${DIRS}" && \
+    chmod -R 0755 "${DIRS}" && \
     apt-get -y clean && \
     apt-get -y autoremove && \
     rm -rf /var/lib/apt/lists/* /var/cache/apt/* \
