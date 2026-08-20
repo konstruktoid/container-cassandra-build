@@ -1,18 +1,21 @@
+# Options common to every supported JVM.
+#
+# Cassandra 4.0 and later split the JVM configuration per major Java version:
+# garbage collector and GC logging flags belong in jvm11-server.options and
+# jvm17-server.options, which the package ships and which this file must not
+# duplicate. Keeping CMS or -XX:+PrintGCDetails here, as earlier revisions of
+# this file did, prevents the JVM from starting at all on Java 17, since both
+# were removed after Java 8.
+
 -ea
 
 -XX:+UseThreadPriorities
-
--XX:ThreadPriorityPolicy=1
 
 -XX:+HeapDumpOnOutOfMemoryError
 
 -Xss256k
 
--XX:StringTableSize=1000003
-
 -XX:+AlwaysPreTouch
-
--XX:-UseBiasedLocking
 
 -XX:+UseTLAB
 -XX:+ResizeTLAB
@@ -21,16 +24,3 @@
 -XX:+PerfDisableSharedMem
 
 -Djava.net.preferIPv4Stack=true
-
--XX:+UseConcMarkSweepGC
--XX:+CMSParallelRemarkEnabled
--XX:SurvivorRatio=8
--XX:MaxTenuringThreshold=1
--XX:CMSInitiatingOccupancyFraction=75
--XX:+UseCMSInitiatingOccupancyOnly
--XX:CMSWaitDuration=10000
--XX:+CMSParallelInitialMarkEnabled
--XX:+CMSEdenChunksRecordAlways
--XX:+CMSClassUnloadingEnabled
-
--XX:+PrintGCDetails

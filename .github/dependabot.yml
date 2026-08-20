@@ -1,0 +1,41 @@
+# Renovate previously kept these pins current. Dependabot covers the two
+# ecosystems this repository actually pins: the SHA-pinned actions in
+# .github/workflows and the digest-pinned base image in the Dockerfile.
+# It has no pre-commit ecosystem, so the hook revisions in
+# .pre-commit-config.yaml are updated by hand or with `pre-commit autoupdate`.
+version: 2
+
+updates:
+  - package-ecosystem: github-actions
+    directory: /
+    schedule:
+      interval: weekly
+      day: monday
+    # Most malicious releases are found and yanked within days, so a week of
+    # delay absorbs a large share of that risk at very little cost.
+    cooldown:
+      default-days: 7
+    labels:
+      - dependencies
+    commit-message:
+      prefix: chore
+      include: scope
+    # One pull request for all action bumps: this repository pins every action
+    # by SHA, so the alternative is a separate branch per action every week.
+    groups:
+      github-actions:
+        patterns:
+          - "*"
+
+  - package-ecosystem: docker
+    directory: /
+    schedule:
+      interval: weekly
+      day: monday
+    cooldown:
+      default-days: 7
+    labels:
+      - dependencies
+    commit-message:
+      prefix: chore
+      include: scope
